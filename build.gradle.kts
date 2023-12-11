@@ -1,12 +1,12 @@
 plugins {
-    id "java"
-    id "application"
-    id "maven-publish"
-    id "com.github.johnrengelman.shadow" version "7.1.0"
+    "java"
+    "application"
+    "maven-publish"
+    "com.github.johnrengelman.shadow" version "7.1.0"
 }
 
 group "space.essem"
-version "0.2.1"
+version "0.3.0"
 mainClassName = "org.springframework.boot.loader.JarLauncher"
 sourceCompatibility = 11
 compileJava.options.encoding = "UTF-8"
