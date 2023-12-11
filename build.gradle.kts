@@ -1,46 +1,53 @@
 plugins {
-    "java"
-    "application"
-    "maven-publish"
-    "com.github.johnrengelman.shadow" version "7.1.0"
+    java
+    `maven-publish`
+    alias(libs.plugins.lavalink)
 }
 
 group "space.essem"
 version "0.3.0"
-mainClassName = "org.springframework.boot.loader.JarLauncher"
-sourceCompatibility = 11
-compileJava.options.encoding = "UTF-8"
+
+lavalinkPlugin {
+    name = "lava-xm-plugin"
+    apiVersion = libs.versions.lavalink.api
+    serverVersion = libs.versions.lavalink.server
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+tasks {
+    compileJava {
+        options.encoding = "UTF-8"
+    }
+}
 
 repositories {
     mavenCentral()
-    maven { url "https://jitpack.io" }
-    maven { url 'https://dankmemeitthefrog.github.io/maven-repo' }
-
-    // Transitive dependencies
-    maven { url "https://m2.dv8tion.net/releases" }
-    jcenter()
-    mavenLocal()
+    maven { url = uri("https://jitpack.io") }
+    maven { url = uri("https://dankmemeitthefrog.github.io/maven-repo") }
 }
 
 dependencies {
-    compileOnly 'dev.arbjerg.lavalink:plugin-api:0.9.0'
-    runtimeOnly "com.github.TheEssem.Lavalink:Lavalink-Server:dev-SNAPSHOT"
-    implementation "org.helllabs:libxmp-java:1.0.1"
+    compileOnly("dev.arbjerg.lavalink:plugin-api:4.0.0")
+    implementation("dev.arbjerg:lavaplayer:2.0.4")
+    implementation("org.helllabs:libxmp-java:1.0.1")
 }
 
-shadowJar {
-    def impl = project.configurations.implementation
-    impl.canBeResolved(true)
-    configurations = [impl]
-    archiveClassifier.set("")
-}
+// shadowJar {
+//     def impl = project.configurations.implementation
+//     impl.canBeResolved(true)
+//     configurations = [impl]
+//     archiveClassifier.set("")
+// }
 
 publishing {
     publications {
-        maven(MavenPublication) {
-            pom {
-                from components.java
-            }
+        create<MavenPublication>("maven") {
+            from(components["java"])
         }
     }
 }

@@ -1,1 +1,1 @@
-rootProject.name = 'lava-xm-plugin'
+rootProject.name = "lava-xm-plugin"
